@@ -453,6 +453,10 @@ function ww_translate_remaining_strings($translation, $text, $domain) {
         'Add Product' => 'Produkt hinzufügen',
         'Product' => 'Produkt',
         'Filter' => 'Filtern',
+        'Sort by:' => 'Sortieren nach:',
+        'Most Recent' => 'Neueste zuerst',
+        'Search Vendors' => 'Anbieter suchen',
+        'Apply' => 'Anwenden',
         'Export' => 'Exportieren',
         'Customer' => 'Kunde',
         'Date' => 'Datum',
@@ -549,6 +553,10 @@ function ww_translate_rendered_html($html) {
         'Save Changes',
         'Add Product',
         'Total stores showing:',
+        'Sort by:',
+        'Most Recent',
+        'Search Vendors',
+        'Apply',
         'Produkte suchen&nbsp;…',
         'Produkte suchen …',
         'Produkte suchen …',
@@ -613,6 +621,10 @@ function ww_translate_rendered_html($html) {
         'Änderungen speichern',
         'Produkt hinzufügen',
         'Summe Anbieter:',
+        'Sortieren nach:',
+        'Neueste zuerst',
+        'Anbieter suchen',
+        'Anwenden',
         'Suche',
         'Suche',
         'Suche',
@@ -702,7 +714,10 @@ function ww_translate_dynamic_frontend_strings() {
           ['City', 'Ort'],
           ['Postcode / ZIP', 'Postleitzahl'],
           ['Product', 'Produkt'],
-          ['Filter', 'Filtern'],
+          ['Sort by:', 'Sortieren nach:'],
+          ['Most Recent', 'Neueste zuerst'],
+          ['Search Vendors', 'Anbieter suchen'],
+          ['Apply', 'Anwenden'],
           ['Export', 'Exportieren'],
           ['Customer', 'Kunde'],
           ['Total stores showing:', 'Summe Anbieter:'],
@@ -762,6 +777,7 @@ function ww_translate_dynamic_frontend_strings() {
           }
           value = value.split('Datumnschutz').join('Datenschutz');
           value = value.split('Datumnschutzerklärung').join('Datenschutzerklärung');
+          value = value.replace(/Filtern+/g, 'Filtern');
           node.nodeValue = value;
         });
 
