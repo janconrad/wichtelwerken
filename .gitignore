@@ -1,0 +1,21 @@
+# Standard: Nur eigenes Theme und Dokumentation versionieren.
+*
+
+!.gitignore
+!README.md
+!.github/
+!.github/**
+!.ddev/
+!.ddev/config.yaml
+!docs/
+!docs/**
+!wp-content/
+!wp-content/mu-plugins/
+!wp-content/mu-plugins/wichtelwerken-privacy.php
+!wp-content/themes/
+!wp-content/themes/wichtelwerken-child/
+!wp-content/themes/wichtelwerken-child/**
+!wp-content/uploads/
+!wp-content/uploads/ww-import-source/
+!wp-content/uploads/ww-import-source/legal/
+!wp-content/uploads/ww-import-source/legal/update-legal-pages.php
