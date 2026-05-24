@@ -523,6 +523,14 @@ function ww_start_german_output_buffer() {
 }
 
 function ww_translate_rendered_html($html) {
+    $protected_blocks = [];
+    $html = preg_replace_callback('/<(script|style|noscript)\b[^>]*>.*?<\/\1>/is', function($matches) use (&$protected_blocks) {
+        $key = '%%WW_PROTECTED_BLOCK_' . count($protected_blocks) . '%%';
+        $protected_blocks[$key] = $matches[0];
+
+        return $key;
+    }, $html);
+
     $html = str_replace([
         'View cart',
         'Checkout',
@@ -675,7 +683,9 @@ function ww_translate_rendered_html($html) {
 
     $html = str_replace('%2Fanalytics%2FÜbersicht', '%2Fanalytics%2FOverview', $html);
 
-    return preg_replace('/(\d+)\s+items?/', '$1 Artikel', $html);
+    $html = preg_replace('/(\d+)\s+items?/', '$1 Artikel', $html);
+
+    return strtr($html, $protected_blocks);
 }
 
 add_action('wp_footer', 'ww_translate_dynamic_frontend_strings', 100);
@@ -809,6 +819,16 @@ function ww_translate_dynamic_frontend_strings() {
           node.nodeValue = value;
         });
 
+        document.querySelectorAll('a, button').forEach(function (element) {
+          const text = element.textContent.trim();
+          if (text === 'Proceed to Checkout' || text === 'Proceed to Kasse') {
+            element.textContent = 'Weiter zur Kasse';
+          }
+          if (element.textContent.trim() === 'Weiter zur Kasse' && element.tagName === 'A') {
+            element.setAttribute('href', '<?php echo esc_js(wc_get_checkout_url()); ?>');
+          }
+        });
+
         replacements.forEach(function (entry) {
           document.title = document.title.split(entry[0]).join(entry[1]);
         });
@@ -838,6 +858,7 @@ function ww_translate_dynamic_frontend_strings() {
       }
       window.setTimeout(window.wwTranslateDynamicFrontendStrings, 500);
       window.setTimeout(window.wwTranslateDynamicFrontendStrings, 1500);
+      window.setTimeout(window.wwTranslateDynamicFrontendStrings, 3000);
       new MutationObserver(window.wwTranslateDynamicFrontendStrings).observe(document.body, {
         childList: true,
         subtree: true
