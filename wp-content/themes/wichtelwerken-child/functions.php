@@ -225,6 +225,10 @@ add_filter('woocommerce_product_add_to_cart_text', function($text, $product) {
 }, 10, 2);
 add_filter('woocommerce_product_single_add_to_cart_text', fn() => 'In den Warenkorb legen');
 
+add_filter('option_woocommerce_tax_display_cart', fn() => 'incl');
+add_filter('option_woocommerce_tax_display_shop', fn() => 'incl');
+add_filter('option_woocommerce_price_display_suffix', fn() => 'inkl. MwSt.');
+
 // Vendor Badge in der Produktliste
 add_action('woocommerce_after_shop_loop_item_title', 'ww_vendor_badge_loop', 5);
 function ww_vendor_badge_loop() {
@@ -377,12 +381,15 @@ function ww_translate_remaining_strings($translation, $text, $domain) {
         'Lost your password?' => 'Passwort vergessen?',
         'My account' => 'Mein Konto',
         'My Orders' => 'Meine Bestellungen',
+        'New in store' => 'Neu im Shop',
         'No products in the cart.' => 'Es befinden sich keine Produkte im Warenkorb.',
         'No Result Found' => 'Keine Ergebnisse gefunden',
         'Not Available' => 'Nicht verfügbar',
         'Phone Number' => 'Telefonnummer',
         'Phone Number*' => 'Telefonnummer*',
         'Place Order' => 'Bestellung aufgeben',
+        'Proceed to Checkout' => 'Weiter zur Kasse',
+        'Proceed to Kasse' => 'Weiter zur Kasse',
         'Product category is required' => 'Eine Produktkategorie ist erforderlich',
         'Product created successfully' => 'Produkt erfolgreich erstellt',
         'Product title is required' => 'Ein Produkttitel ist erforderlich',
@@ -488,6 +495,7 @@ function ww_translate_remaining_strings($translation, $text, $domain) {
         'Send Message' => 'Nachricht senden',
         'Type your message...' => 'Nachricht eingeben...',
         'Your Name' => 'Dein Name',
+        'Your cart is currently empty!' => 'Dein Warenkorb ist aktuell leer.',
         'You are already logged in' => 'Du bist bereits angemeldet.',
         'Something went wrong. Please try again.' => 'Etwas ist schiefgelaufen. Bitte versuche es erneut.',
         'Upload featured image' => 'Produktbild hochladen',
@@ -518,6 +526,8 @@ function ww_translate_rendered_html($html) {
     $html = str_replace([
         'View cart',
         'Checkout',
+        'Proceed to Checkout',
+        'Proceed to Kasse',
         'Vendor:',
         'Subtotal:',
         'Phone Number*',
@@ -525,6 +535,8 @@ function ww_translate_rendered_html($html) {
         'Store Product Category',
         'Contact Vendor',
         'Enter product name',
+        'Your cart is currently empty!',
+        'New in store',
         'Marketplace Commission',
         'Marketplace Discount',
         'Store Discount',
@@ -588,6 +600,8 @@ function ww_translate_rendered_html($html) {
     ], [
         'Warenkorb ansehen',
         'Kasse',
+        'Weiter zur Kasse',
+        'Weiter zur Kasse',
         'Anbieter:',
         'Zwischensumme:',
         'Telefonnummer*',
@@ -595,6 +609,8 @@ function ww_translate_rendered_html($html) {
         'Produktkategorien',
         'Anbieter kontaktieren',
         'Suche',
+        'Dein Warenkorb ist aktuell leer.',
+        'Neu im Shop',
         'Marktplatz-Provision',
         'Marktplatz-Rabatt',
         'Shop-Rabatt',
@@ -669,6 +685,8 @@ function ww_translate_dynamic_frontend_strings() {
       window.wwTranslateDynamicFrontendStrings = function () {
         const replacements = [
           ['View ' + 'cart', 'Warenkorb ansehen'],
+          ['Proceed to Checkout', 'Weiter zur Kasse'],
+          ['Proceed to Kasse', 'Weiter zur Kasse'],
           ['Check' + 'out', 'Kasse'],
           ['Ven' + 'dor:', 'Anbieter:'],
           ['Sub' + 'total:', 'Zwischensumme:'],
@@ -679,6 +697,8 @@ function ww_translate_dynamic_frontend_strings() {
           ['Store Product Category', 'Produktkategorien'],
           ['Contact Vendor', 'Anbieter kontaktieren'],
           ['Enter product name', 'Suche'],
+          ['Your cart is currently empty!', 'Dein Warenkorb ist aktuell leer.'],
+          ['New in store', 'Neu im Shop'],
           ['Marketplace Commission', 'Marktplatz-Provision'],
           ['Marketplace Discount', 'Marktplatz-Rabatt'],
           ['Store Discount', 'Shop-Rabatt'],
