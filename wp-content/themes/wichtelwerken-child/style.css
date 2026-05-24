@@ -1047,6 +1047,33 @@ ul.products li.product .woocommerce-LoopProduct-link {
   box-shadow: 0 0 0 3px rgba(61, 107, 46, 0.12) !important;
 }
 
+#customer_login .woocommerce-form-login__submit,
+#customer_login .woocommerce-form-register__submit {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 150px;
+  min-height: 44px !important;
+  margin: 12px 0 0 !important;
+  padding: 0 28px !important;
+  line-height: 44px !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+  box-sizing: border-box !important;
+}
+
+#customer_login .woocommerce-form-login .form-row:last-of-type,
+#customer_login .woocommerce-form-register .form-row:last-of-type {
+  margin-bottom: 0 !important;
+}
+
+#customer_login .woocommerce-form-login__rememberme {
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px !important;
+}
+
 /* =========================================================
    FOOTER
    ========================================================= */

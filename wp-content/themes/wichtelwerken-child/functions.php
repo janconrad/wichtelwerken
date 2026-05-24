@@ -21,7 +21,7 @@ function ww_enqueue_assets() {
         'wichtelwerken-child',
         get_stylesheet_uri(),
         ['storefront-parent'],
-        '2.0.8'
+        '2.0.9'
     );
     wp_enqueue_script(
         'wichtelwerken-main',
