@@ -946,6 +946,33 @@ ul.products li.product .woocommerce-LoopProduct-link {
   font-family: var(--ww-font-body) !important;
 }
 
+#dokan-seller-listing-wrap .store-footer .dokan-btn-round {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 42px !important;
+  height: 42px !important;
+  border-radius: 50% !important;
+  font-size: 0 !important;
+  line-height: 1 !important;
+  box-shadow: 0 8px 18px rgba(45, 74, 36, 0.18);
+}
+
+#dokan-seller-listing-wrap .store-footer .dokan-btn-round::after {
+  content: "\2709";
+  display: block;
+  font-family: Arial, sans-serif;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--ww-white);
+  transform: translateY(-1px);
+}
+
+#dokan-seller-listing-wrap .store-footer .dashicons-arrow-right-alt2::before {
+  content: "" !important;
+  display: none !important;
+}
+
 .dokan-dashboard .dokan-dash-sidebar ul li.active a,
 .dokan-dashboard .dokan-dash-sidebar ul li a:hover {
   color: var(--ww-green) !important;
