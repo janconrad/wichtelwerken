@@ -12,10 +12,7 @@ get_header(); ?>
        Foto: themes/wichtelwerken-child/images/hero-bg.png
   ===================================================== -->
   <section class="ww-hero">
-    <div class="ww-hero__bg" style="
-      background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/images/hero-bg.png'),
-        linear-gradient(135deg, #e8f0e4 0%, #f0e8e0 40%, #e8ddd4 70%, #f5ede6 100%);
-    "></div>
+    <div class="ww-hero__bg"></div>
     <div class="ww-hero__overlay"></div>
 
     <div class="ww-hero__content">
@@ -88,7 +85,7 @@ get_header(); ?>
     </div>
     <?php
     if (function_exists('WC')) {
-        echo do_shortcode('[recent_products limit="6" columns="3" orderby="date" order="DESC"]');
+        echo do_shortcode('[recent_products limit="8" columns="4" orderby="date" order="DESC"]');
     } else {
         echo '<p class="ww-placeholder">Produkte erscheinen hier, sobald WooCommerce eingerichtet ist.</p>';
     }

@@ -1,0 +1,7 @@
+<FilesMatch "^(debug|error).*\.log$">
+    Require all denied
+</FilesMatch>
+
+<FilesMatch "\.(log|sql|sqlite|env)$">
+    Require all denied
+</FilesMatch>

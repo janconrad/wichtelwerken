@@ -7,11 +7,15 @@
 !.github/**
 !.ddev/
 !.ddev/config.yaml
+!.ddev/nginx_full/
+!.ddev/nginx_full/nginx-site.conf
 !docs/
 !docs/**
 !wp-content/
+!wp-content/.htaccess
 !wp-content/mu-plugins/
 !wp-content/mu-plugins/wichtelwerken-privacy.php
+!wp-content/mu-plugins/wichtelwerken-performance-monitoring.php
 !wp-content/themes/
 !wp-content/themes/wichtelwerken-child/
 !wp-content/themes/wichtelwerken-child/**
