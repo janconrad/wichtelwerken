@@ -1,6 +1,6 @@
 # Wichtelwerken: Performance und Monitoring
 
-Stand: 2026-05-26
+Stand: 2026-06-19
 
 ## Performance
 
@@ -26,6 +26,72 @@ location ~* ^/wp-content/.*\.(?:log|sql|sqlite|env)$ {
 ```
 
 Empfohlen: serverseitiger Full-Page-Cache für öffentliche Seiten, aber Warenkorb, Kasse, Mein Konto, Verkäufer-Dashboard und REST/WooCommerce-Store-API ausschließen.
+
+## Security Headers und XML-RPC
+
+Das MU-Plugin `wp-content/mu-plugins/wichtelwerken-production-hardening.php` setzt:
+
+- `X-Content-Type-Options: nosniff`
+- `X-Frame-Options: SAMEORIGIN`
+- `Referrer-Policy: strict-origin-when-cross-origin`
+- `Permissions-Policy` mit deaktivierten Sensor-/Kamera-/Mikrofonrechten und erlaubtem Payment-Kontext für die eigene Seite
+
+XML-RPC ist zusätzlich per WordPress-Filter deaktiviert. In DDEV wird `/xmlrpc.php` auch direkt in Nginx mit `403` blockiert; auf dem Produktionsserver sollte dieselbe Regel gesetzt werden, falls dort Nginx verwendet wird.
+
+HSTS ist bewusst opt-in, damit lokale Entwicklung und Staging nicht versehentlich festgepinnt werden:
+
+```php
+putenv('WW_ENABLE_HSTS=true');
+```
+
+Nur setzen, wenn die finale Domain dauerhaft über HTTPS läuft.
+
+## E-Mail/SMTP
+
+Der produktive Mailversand wird über Umgebungsvariablen konfiguriert. Ohne diese Variablen nutzt WordPress das Standard-Mailverhalten.
+
+```text
+WW_SMTP_HOST=smtp.example.com
+WW_SMTP_PORT=587
+WW_SMTP_SECURE=tls
+WW_SMTP_USER=postfach@example.com
+WW_SMTP_PASS=...
+WW_MAIL_FROM=shop@example.com
+WW_MAIL_FROM_NAME=Wichtelwerken
+```
+
+Nach Einrichtung auf Produktion testen:
+
+```bash
+wp eval 'var_dump(wp_mail("zieladresse@example.com", "Wichtelwerken Mailtest", "Testmail vom Produktivsystem"));'
+```
+
+Danach im Postfach und in den Serverlogs prüfen, ob SPF, DKIM und DMARC zur Absenderdomain passen.
+
+## Backups und Restore-Test
+
+Lokales Backup:
+
+```bash
+bin/create-backup.sh
+bin/verify-backup.sh
+```
+
+Das Backup enthält Datenbank und `wp-content/uploads`. Code kommt aus GitHub; Plugins müssen vor einem Restore anhand des dokumentierten Plugin-Stands aktualisiert werden.
+
+Produktiv mindestens täglich sichern:
+
+- Datenbank
+- `wp-content/uploads`
+- produktive `wp-config.php` bzw. Secrets/Umgebungsvariablen außerhalb des Webroots
+
+Monatlicher Restore-Test:
+
+1. Frisches Staging anlegen.
+2. Datenbankbackup importieren.
+3. Uploads-Archiv entpacken.
+4. Plugins aktualisieren und `wp wc update` ausführen.
+5. Startseite, Shop, Produktseite, Warenkorb, Kasse, Mein Konto, Verkäufer-Dashboard und Health-Endpunkt prüfen.
 
 ## Monitoring
 
@@ -57,6 +123,8 @@ Update-/Security-Prozess:
 
 - Wöchentlich: `wp core check-update`, `wp plugin update --dry-run --all`, `wp theme update --dry-run --all`
 - Vor Updates: Datenbank + `wp-content/uploads` sichern
+- Plugin-Updates, die vor Go-live zuletzt geprüft wurden: Complianz `7.5.0`, Dokan Lite `5.0.4`, WooCommerce `10.8.1`
+- Nach WooCommerce-Updates: `wp wc update` ausführen, bis `WC_Install::needs_db_update()` `false` meldet
 - Nach Updates: Health-Endpunkt, Startseite, Shop, Produktseite, Warenkorb, Kasse und Verkäufer-Dashboard prüfen
 - Monatlich: Restore-Test eines Backups
 - Bei Security-Advisory: Staging aktualisieren, Smoke-Test, danach Produktion

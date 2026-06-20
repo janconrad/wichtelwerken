@@ -1142,8 +1142,8 @@ ul.products li.product .woocommerce-LoopProduct-link {
 }
 
 .page-id-12 .site-content .col-full {
-  max-width: 1440px;
-  width: calc(100% - 64px);
+  max-width: 1760px;
+  width: calc(100% - 48px);
   margin-inline: auto;
   padding-inline: 0;
   box-sizing: border-box;
@@ -1159,12 +1159,19 @@ ul.products li.product .woocommerce-LoopProduct-link {
 
 .dokan-dashboard .dokan-dashboard-wrap {
   display: grid;
-  grid-template-columns: 220px minmax(0, 1fr);
-  gap: 32px;
+  grid-template-columns: 210px minmax(0, 1fr);
+  gap: 24px;
   align-items: start;
 }
 
+.dokan-dashboard .dokan-dashboard-wrap > .dokan-alert {
+  grid-column: 1 / -1;
+  width: 100%;
+  margin: 0;
+}
+
 .dokan-dashboard .dokan-dash-sidebar {
+  grid-column: 1;
   float: none !important;
   width: auto !important;
   min-height: 640px;
@@ -1211,6 +1218,7 @@ ul.products li.product .woocommerce-LoopProduct-link {
 
 .dokan-dashboard .dokan-dashboard-content,
 .dokan-dashboard .dokan-dashboard-content.dokan-product-listing {
+  grid-column: 2;
   float: none !important;
   width: auto !important;
   min-width: 0;
@@ -1218,7 +1226,6 @@ ul.products li.product .woocommerce-LoopProduct-link {
 
 .dokan-dashboard .dokan-dashboard-content article,
 .dokan-dashboard .dokan-dashboard-content .dokan-product-listing-area {
-  overflow-x: auto;
   width: 100%;
 }
 
@@ -1232,13 +1239,82 @@ ul.products li.product .woocommerce-LoopProduct-link {
   padding: 0 0 8px !important;
 }
 
+.dokan-product-listing .product-listing-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.dokan-product-listing .dokan-w12 {
+  display: grid;
+  grid-template-columns: minmax(560px, 1fr) minmax(320px, 420px);
+  gap: 14px;
+  align-items: start;
+  width: 100% !important;
+  float: none !important;
+  margin-bottom: 18px;
+}
+
+.dokan-product-listing .dokan-product-date-filter,
+.dokan-product-listing .dokan-product-search-form {
+  display: flex !important;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  width: 100% !important;
+  float: none !important;
+  margin: 0 !important;
+}
+
+.dokan-product-listing .dokan-product-search-form {
+  justify-content: flex-end;
+}
+
+.dokan-product-listing .dokan-product-search-form .dokan-form-group {
+  flex: 1 1 220px;
+  min-width: 0;
+}
+
+.dokan-product-listing .dokan-product-search-form input[type="text"] {
+  width: 100%;
+}
+
+.dokan-dashboard-product-listing-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
 .dokan-dashboard table,
 .dokan-product-listing-area table {
   width: 100% !important;
-  min-width: 1060px;
   border-radius: var(--ww-radius-sm);
   overflow: hidden;
   background: var(--ww-white);
+}
+
+.dokan-product-listing-area .product-listing-table {
+  min-width: 1080px;
+  table-layout: auto;
+}
+
+.dokan-product-listing-area .product-listing-table th,
+.dokan-product-listing-area .product-listing-table td {
+  vertical-align: middle;
+}
+
+.dokan-product-listing-area .product-listing-table .column-thumb img {
+  display: block;
+  width: 54px;
+  height: 54px;
+  object-fit: cover;
+  border-radius: var(--ww-radius-sm);
+}
+
+.dokan-product-listing-area .product-listing-table .column-primary {
+  white-space: normal;
 }
 
 .dokan-dashboard table thead th,
@@ -1756,6 +1832,18 @@ ul.products li.product .woocommerce-LoopProduct-link {
   .dokan-dashboard .dokan-dashboard-content {
     width: 100% !important;
     float: none !important;
+  }
+
+  .dokan-product-listing .product-listing-top,
+  .dokan-product-listing .dokan-w12 {
+    display: block;
+  }
+
+  .dokan-product-listing .dokan-product-date-filter,
+  .dokan-product-listing .dokan-product-search-form {
+    display: flex !important;
+    justify-content: flex-start;
+    margin-bottom: 12px !important;
   }
 
   .ww-store-legal-box dl {

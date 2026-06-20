@@ -42,4 +42,6 @@ jobs:
           set -eu
           rsync -az --delete wp-content/themes/wichtelwerken-child/ "deploy-target:${DEPLOY_PATH%/}/wp-content/themes/wichtelwerken-child/"
           rsync -az wp-content/mu-plugins/wichtelwerken-privacy.php "deploy-target:${DEPLOY_PATH%/}/wp-content/mu-plugins/wichtelwerken-privacy.php"
+          rsync -az wp-content/mu-plugins/wichtelwerken-performance-monitoring.php "deploy-target:${DEPLOY_PATH%/}/wp-content/mu-plugins/wichtelwerken-performance-monitoring.php"
+          rsync -az wp-content/mu-plugins/wichtelwerken-production-hardening.php "deploy-target:${DEPLOY_PATH%/}/wp-content/mu-plugins/wichtelwerken-production-hardening.php"
           rsync -az wp-content/uploads/ww-import-source/legal/update-legal-pages.php "deploy-target:${DEPLOY_PATH%/}/wp-content/uploads/ww-import-source/legal/update-legal-pages.php"

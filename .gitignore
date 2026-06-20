@@ -5,6 +5,8 @@
 !README.md
 !.github/
 !.github/**
+!bin/
+!bin/**
 !.ddev/
 !.ddev/config.yaml
 !.ddev/nginx_full/
@@ -16,6 +18,7 @@
 !wp-content/mu-plugins/
 !wp-content/mu-plugins/wichtelwerken-privacy.php
 !wp-content/mu-plugins/wichtelwerken-performance-monitoring.php
+!wp-content/mu-plugins/wichtelwerken-production-hardening.php
 !wp-content/themes/
 !wp-content/themes/wichtelwerken-child/
 !wp-content/themes/wichtelwerken-child/**
