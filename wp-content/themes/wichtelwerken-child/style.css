@@ -29,8 +29,8 @@ Text Domain:  wichtelwerken-child
   --ww-sand:            #e0d5c8;
 
   --ww-text:            #1a1a1a;
-  --ww-text-muted:      #6b7c6b;
-  --ww-text-light:      #9aab9a;
+  --ww-text-muted:      #4f604f;
+  --ww-text-light:      #5b6d56;
   --ww-white:           #ffffff;
 
   /* Typografie */
@@ -130,6 +130,7 @@ img { max-width: 100%; height: auto; }
   align-items: center;
   gap: 32px;
   padding: 12px 48px !important;
+  min-height: 88px;
   transition: box-shadow var(--ww-transition);
 }
 
@@ -143,6 +144,7 @@ img { max-width: 100%; height: auto; }
   justify-content: space-between !important;
   padding: 0 !important;
   max-width: 1280px;
+  min-height: 64px;
   margin: 0;
 }
 
@@ -152,6 +154,9 @@ img { max-width: 100%; height: auto; }
 
 .storefront-primary-navigation {
   flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  min-height: 44px;
   background: transparent !important;
 }
 
@@ -161,6 +166,7 @@ img { max-width: 100%; height: auto; }
   gap: 14px;
   justify-content: flex-end !important;
   max-width: none;
+  min-height: 44px;
   width: 100%;
 }
 
@@ -170,6 +176,7 @@ img { max-width: 100%; height: auto; }
   align-items: center;
   gap: 10px;
   margin: 0 !important;
+  min-height: 64px;
   width: auto !important;
 }
 
@@ -178,6 +185,8 @@ img { max-width: 100%; height: auto; }
   width: 190px;
   max-width: 190px;
   height: auto;
+  aspect-ratio: 640 / 311;
+  object-fit: contain;
 }
 
 .site-branding .site-title {
@@ -225,7 +234,7 @@ img { max-width: 100%; height: auto; }
 .main-navigation ul li a {
   color: var(--ww-text-muted) !important;
   font-size: 15px;
-  font-weight: 400;
+  font-weight: 500;
   padding: 8px 18px;
   border-radius: var(--ww-radius-pill);
   transition: all var(--ww-transition);
@@ -296,6 +305,7 @@ img { max-width: 100%; height: auto; }
   transition: all var(--ww-transition) !important;
   border: none !important;
   min-height: 42px;
+  min-width: 118px;
   white-space: nowrap;
 }
 
@@ -336,6 +346,7 @@ img { max-width: 100%; height: auto; }
   width: 150px !important;
   min-width: 150px !important;
   height: 42px;
+  min-height: 42px;
   margin: 0 !important;
 }
 
@@ -418,7 +429,8 @@ img { max-width: 100%; height: auto; }
 .ww-hero {
   position: relative;
   width: 100%;
-  min-height: 85vh;
+  min-height: 620px;
+  height: clamp(620px, 85vh, 760px);
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -440,6 +452,7 @@ img { max-width: 100%; height: auto; }
   background-size: cover;
   background-position: center center;
   background-color: var(--ww-cream-dark); /* Fallback */
+  transform: translate3d(0, 0, 0);
   z-index: 0;
 }
 
@@ -613,9 +626,9 @@ button[type="submit"]:not(.search-submit):hover {
 }
 
 .ww-section-link {
-  color: var(--ww-green);
+  color: var(--ww-green-dark);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .ww-section-label {
@@ -711,6 +724,11 @@ button[type="submit"]:not(.search-submit):hover {
 .ww-shop-category__icon {
   font-size: 18px;
   line-height: 1;
+}
+
+.woocommerce-breadcrumb a {
+  color: var(--ww-green-dark) !important;
+  font-weight: 600;
 }
 
 .storefront-sorting {
@@ -916,9 +934,9 @@ ul.products li.product .woocommerce-LoopProduct-link {
 .ww-vendor-badge {
   display: inline-block;
   background: var(--ww-rose-light);
-  color: var(--ww-rose);
+  color: #9b315d;
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 600;
   padding: 3px 10px;
   border-radius: var(--ww-radius-pill);
   margin: 6px 16px 0;
@@ -1043,7 +1061,7 @@ ul.products li.product .woocommerce-LoopProduct-link {
 .ww-cta__badge {
   display: inline-block;
   background: var(--ww-rose-light);
-  color: var(--ww-rose);
+  color: #9b315d;
   font-size: 11px;
   font-weight: 600;
   padding: 5px 16px;
@@ -1066,7 +1084,7 @@ ul.products li.product .woocommerce-LoopProduct-link {
   color: var(--ww-text-muted);
   line-height: 1.8;
   margin-bottom: 32px;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .ww-cta__button {
@@ -1756,6 +1774,7 @@ ul.products li.product .woocommerce-LoopProduct-link {
     justify-content: center;
     gap: 12px;
     padding: 12px 20px !important;
+    min-height: 248px;
   }
 
   .site-header .col-full {
@@ -1767,6 +1786,7 @@ ul.products li.product .woocommerce-LoopProduct-link {
 
   .site-branding {
     justify-content: center;
+    min-height: 64px;
     width: 100% !important;
   }
 
@@ -1781,7 +1801,10 @@ ul.products li.product .woocommerce-LoopProduct-link {
     min-width: 0 !important;
   }
 
-  .ww-hero { min-height: 70vh; }
+  .ww-hero {
+    height: auto;
+    min-height: 560px;
+  }
   .ww-hero__bg { background-position: 58% center; }
   .ww-hero__title { font-size: clamp(38px, 11vw, 44px); letter-spacing: 0; }
   .ww-hero__subtitle { font-size: 15px; }

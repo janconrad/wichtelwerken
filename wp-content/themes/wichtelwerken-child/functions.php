@@ -6,11 +6,17 @@
 
 defined('ABSPATH') || exit;
 
+define('WW_THEME_VERSION', '2.0.30');
+
 // =========================================================
 // 1. ASSETS EINBINDEN
 // =========================================================
 add_action('wp_enqueue_scripts', 'ww_enqueue_assets');
 function ww_enqueue_assets() {
+    $child_style_file = file_exists(get_stylesheet_directory() . '/style.min.css')
+        ? 'style.min.css'
+        : 'style.css';
+
     wp_enqueue_style(
         'storefront-parent',
         get_template_directory_uri() . '/style.css',
@@ -19,17 +25,75 @@ function ww_enqueue_assets() {
     );
     wp_enqueue_style(
         'wichtelwerken-child',
-        get_stylesheet_uri(),
+        get_stylesheet_directory_uri() . '/' . $child_style_file,
         ['storefront-parent'],
-        '2.0.27'
+        WW_THEME_VERSION
     );
     wp_enqueue_script(
         'wichtelwerken-main',
         get_stylesheet_directory_uri() . '/js/main.js',
         [],
-        '2.0.2',
+        WW_THEME_VERSION,
         true
     );
+}
+
+add_action('wp_enqueue_scripts', 'ww_dequeue_unused_public_assets', 1000);
+function ww_dequeue_unused_public_assets() {
+    if (!ww_can_trim_public_assets()) {
+        return;
+    }
+
+    wp_dequeue_style('dashicons');
+    wp_deregister_style('dashicons');
+
+    ww_dequeue_styles_by_src_fragments([
+        '/wp-content/plugins/dokan-lite/assets/css/style',
+        '/wp-content/plugins/dokan-lite/assets/vendors/font-awesome/css/font-awesome',
+        '/wp-content/plugins/dokan-lite/assets/vendors/izimodal/',
+        '/wp-content/themes/storefront/assets/css/base/icons',
+    ]);
+}
+
+function ww_can_trim_public_assets() {
+    if (is_admin() || wp_doing_ajax() || is_user_logged_in()) {
+        return false;
+    }
+
+    if (function_exists('dokan_is_store_page') && dokan_is_store_page()) {
+        return false;
+    }
+
+    if (function_exists('dokan_is_seller_dashboard') && dokan_is_seller_dashboard()) {
+        return false;
+    }
+
+    return is_front_page()
+        || (function_exists('is_shop') && is_shop())
+        || (function_exists('is_product_taxonomy') && is_product_taxonomy());
+}
+
+function ww_dequeue_styles_by_src_fragments($fragments) {
+    global $wp_styles;
+
+    if (!($wp_styles instanceof WP_Styles)) {
+        return;
+    }
+
+    foreach ((array) $wp_styles->queue as $handle) {
+        if (empty($wp_styles->registered[$handle]->src)) {
+            continue;
+        }
+
+        $src = $wp_styles->registered[$handle]->src;
+
+        foreach ($fragments as $fragment) {
+            if (strpos($src, $fragment) !== false) {
+                wp_dequeue_style($handle);
+                break;
+            }
+        }
+    }
 }
 
 add_action('wp_head', 'ww_preload_critical_theme_assets', 2);
@@ -42,6 +106,56 @@ function ww_preload_critical_theme_assets() {
         '<link rel="preload" as="image" href="%s" type="image/webp" fetchpriority="high">' . "\n",
         esc_url(get_stylesheet_directory_uri() . '/images/hero-bg.webp')
     );
+}
+
+add_action('wp_head', 'ww_output_favicon_links', 1);
+add_action('login_head', 'ww_output_favicon_links');
+add_action('admin_head', 'ww_output_favicon_links');
+function ww_output_favicon_links() {
+    $base_url = trailingslashit(get_stylesheet_directory_uri()) . 'images/favicons/';
+    ?>
+<link rel="icon" href="<?php echo esc_url($base_url . 'favicon.ico'); ?>" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="<?php echo esc_url($base_url . 'favicon-32.png'); ?>">
+<link rel="icon" type="image/png" sizes="192x192" href="<?php echo esc_url($base_url . 'favicon-192.png'); ?>">
+<link rel="apple-touch-icon" sizes="180x180" href="<?php echo esc_url($base_url . 'apple-touch-icon.png'); ?>">
+<?php
+}
+
+add_action('wp_head', 'ww_output_meta_description', 1);
+function ww_output_meta_description() {
+    $description = ww_get_meta_description();
+
+    if ($description === '') {
+        return;
+    }
+
+    printf(
+        '<meta name="description" content="%s">' . "\n",
+        esc_attr($description)
+    );
+}
+
+function ww_get_meta_description() {
+    if (is_front_page()) {
+        return 'Wichtelwerken ist ein Marktplatz für handgemachte, faire und regionale Produkte von ausgewählten Anbieterinnen und Anbietern.';
+    }
+
+    if (function_exists('is_shop') && is_shop()) {
+        return 'Entdecke im Wichtelwerken-Shop handgemachte, faire und regionale Produkte von sorgfältig ausgewählten Anbieterinnen und Anbietern.';
+    }
+
+    if (function_exists('is_product') && is_product()) {
+        return 'Produktdetails, Preise und Anbieterinformationen auf Wichtelwerken, dem Marktplatz für handgemachte, faire und regionale Produkte.';
+    }
+
+    if (is_singular()) {
+        $excerpt = wp_strip_all_tags(get_the_excerpt(), true);
+        if ($excerpt !== '') {
+            return wp_trim_words($excerpt, 28, '');
+        }
+    }
+
+    return 'Wichtelwerken verbindet handgemachte, faire und regionale Produkte mit Menschen, die bewusst einkaufen möchten.';
 }
 
 function ww_is_ip_host_request() {
